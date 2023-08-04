@@ -5,14 +5,14 @@ module led(
   output [15:0] ledr
 );
   reg [31:0] count;
-  reg [15:0] led;
+  reg [7:0] led;
   always @(posedge clk) begin
     if (rst) begin led <= 1; count <= 0; end
     else begin
-      if (count == 0) led <= {led[14:0], led[15]};
+      if (count == 0) led <= {led[6:0], led[7]};
       count <= (count >= 5000000 ? 32'b0 : count + 1);
     end
   end
 
-  assign ledr = led;
+  assign ledr = {led, sw[7:2], 1'b0, sw[1] ^ sw[0]};
 endmodule
