@@ -1,18 +1,34 @@
 module led(
   input clk,
   input rst,
-  input [7:0] sw,
+  input [15:0] sw,
   output [15:0] ledr
 );
-  reg [31:0] count;
-  reg [7:0] led;
+
+  reg [1:0] y;
+  reg [1:0] x0;
+  reg [1:0] x1;
+  reg [1:0] x2;
+  reg [1:0] x3;
+  reg [1:0] f;
+
   always @(posedge clk) begin
-    if (rst) begin led <= 1; count <= 0; end
-    else begin
-      if (count == 0) led <= {led[6:0], led[7]};
-      count <= (count >= 5000000 ? 32'b0 : count + 1);
-    end
+    assign y  = {sw[1], sw[0]};
+    assign x0 = {sw[3], sw[2]};
+    assign x1 = {sw[5], sw[4]};
+    assign x2 = {sw[7], sw[6]};
+    assign x3 = {sw[9], sw[8]};
   end
 
-  assign ledr = {led, sw[7:2], 1'b0, sw[1] ^ sw[0]};
+  mux41 my_mux41(
+      .y(y),
+      .x0(x0),
+      .x1(x1),
+      .x2(x2),
+      .x3(x3),
+      .f(f)
+  );
+
+  assign ledr[1:0] = f[1:0];
+
 endmodule
