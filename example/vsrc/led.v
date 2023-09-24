@@ -5,36 +5,28 @@ module led(
   output [15:0] ledr
 );
 
-  always @(posedge clk) begin
+adder_v1 my_adder_v1(
+  .a(sw[11:8]),
+  .b(sw[7:4]),
+  .cin(0),
+  .s(ledr[3:0]),
+  .c(ledr[4])
+);
 
-  end
+adder_v2 my_adder_v2(
+  .a(sw[11:8]),
+  .b(sw[7:4]),
+  .cin(0),
+  .s(ledr[8:5]),
+  .c(ledr[9])
+);
 
-/*sw[0]功能选择;
- * a 输入
- * b 输入
- * c 进位输入
- * result 结果输出
- * overflow输出
- * zero输出
- * carry 进位输出
- */
- add_sub_4 my_add_sub_4(
-    .sub_or_add(sw[0]),
-    .a(sw[7:4]),
-    .b(sw[11:8]),
-    .result(ledr[3:0]),
-    .overflow(ledr[4]),
-    .zero(ledr[5]),
-    .carry(ledr[6])
-  );
-
-/*
-  encode83 my_encode83(
-    .x(sw[7:0]),
-    .en(sw[8]),
-    .y(ledr[2:0]),
-    .f(ledr[4])
-  );
-*/
+adder_v3 my_adder_v3(
+  .a(sw[11:8]),
+  .b(sw[7:4]),
+  .cin(0),
+  .s(ledr[13:10]),
+  .c(ledr[14])
+);
 
 endmodule
